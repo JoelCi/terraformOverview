@@ -14,7 +14,7 @@ Here we will find how to create an environment for our servers on AWS using terr
 ## Instructions 
 
 1. Clone this repo locally.
-2. Initialize you AWS credential using "aws configure" command and enter you accessKey and secretKey.
+2. Initialize your AWS credential using "aws configure" command and enter you accessKey and secretKey.
 3. Run "terrafom init" from the root directory.
 4. Check "aws-dev.tfvars" file and edit the variables with the values that you want.
 5. Run "terrafom plan -var-file='./aws-dev.tfvars'" from the root directory.
