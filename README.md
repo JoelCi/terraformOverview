@@ -9,12 +9,12 @@
 
 ## Purpose
 
-Here we will find how to create an environment for our servers on AWS using terraform and terraform modules that cam be consmed directly from this public github repo.
+Here we will find how to create an environment for our servers on AWS using terraform and terraform modules that can be consumed directly from this public github repo.
 
 ## Instructions 
 
 1. Clone this repo locally.
-2. Initialize you AWS credential using "aws configure" command and insert you accessKey and secretKey.
+2. Initialize you AWS credential using "aws configure" command and enter you accessKey and secretKey.
 3. Run "terrafom init" from the root directory.
 4. Check "aws-dev.tfvars" file and edit the variables with the values that you want.
 5. Run "terrafom plan -var-file='./aws-dev.tfvars'" from the root directory.
