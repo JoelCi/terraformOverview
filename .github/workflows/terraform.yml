@@ -91,7 +91,7 @@ jobs:
     - name: Moving into proper terraform folder
       run: |
         ls -la
-        cd /infra
+        cd infra
 
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
