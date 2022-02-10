@@ -21,3 +21,5 @@ module "privateEC2" {
   environment   = var.environment
   type          = "private"
 }
+
+
