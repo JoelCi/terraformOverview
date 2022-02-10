@@ -52,6 +52,7 @@ on:
 
 env:
   devVars: "aws-dev.tfvars"
+  working-directory: ./infra
 
 
 jobs:
