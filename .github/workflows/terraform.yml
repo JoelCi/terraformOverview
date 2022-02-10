@@ -52,6 +52,7 @@ on:
 
 env:
   devVars: "aws-dev.tfvars"
+  bucketBackend: secrets.S3_BUCKET_BACKEND
   
 
 
@@ -104,7 +105,7 @@ jobs:
       
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform plan -var-file="./$devVars"
+      run: terraform plan -var-file="./$devVars" -var "bucketBackendName=$bucketBackend"
   
 
    #   # On push to main, build or change infrastructure according to Terraform configuration files
