@@ -104,8 +104,8 @@ jobs:
     - name: Terraform Init
       run: |
         terraform init \
-        -backend-config="bucket=$bucket" \
-        -backend-config="key=$key" \
+        -backend-config="bucket=joel20220211" \
+        -backend-config="key=state/terraform.tfstate" \
         -backend-config="region=${{ secrets.REGION_US_EAST_1 }}" 
 
     # Checks that all Terraform configuration files adhere to a canonical format
