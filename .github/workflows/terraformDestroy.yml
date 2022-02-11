@@ -108,7 +108,7 @@ jobs:
 
     
     # Apply planning 
-    - name: Terraform Destroy
+    - name: Terraform Plan Destroy
       run: terraform plan -destroy -var-file="./$devVars" 
 
   terraform_Destroy:
