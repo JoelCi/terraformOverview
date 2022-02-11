@@ -96,6 +96,10 @@ jobs:
     - name: Setting up environment variables for terraform backend
       run: |
         export key="terraform.tfstate"
+    
+    - name: Testing variable scope
+      run: |
+        cat $key
         
 
 
