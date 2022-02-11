@@ -60,8 +60,8 @@ env:
 
 
 jobs:
-  terraform:
-    name: 'Terraform'
+  terraform_Plan:
+    name: 'Terraform checks and plan'
     runs-on: ubuntu-latest
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
@@ -116,18 +116,63 @@ jobs:
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
       run: terraform fmt -check
+
+    - name: Terraform Validate
+      run: terraform fmt -check
       
-    - name: Checking folders
-      run: |
-        ls -la
       
     # Generates an execution plan for Terraform
     - name: Terraform Plan
       run: terraform plan -var-file="./$devVars"
-  
+  terraform_Apply:
+    name: 'Terraform apply'
+    runs-on: ubuntu-latest
 
-   #   # On push to main, build or change infrastructure according to Terraform configuration files
-   #   # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
-   # - name: Terraform Apply
-   #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-   #   run: terraform apply -auto-approve
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./infra
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+    
+    - name: Bash Command Lines for GitHub Actions
+      run: |
+        curl "https://s3.amazonaws.com/aws-cli/awscli-bundle-1.16.312.zip" -o "awscli-bundle.zip"
+        unzip awscli-bundle.zip
+        sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
+        aws --version
+        rm -rf awscli-bundle*
+
+        
+    
+    - name: Setting AWS credentials
+      run: |
+        aws configure set aws_access_key_id ${{ secrets.DEFAULT_ACCESS_KEY }}
+        aws configure set aws_secret_access_key ${{ secrets.DEFAULT_SECRET_KEY }}
+        aws configure set default.region ${{ secrets.REGION_US_EAST_1 }}
+        aws sts get-caller-identity
+
+    - name: Setting up environment variables for terraform backend
+      run: |
+        echo "key=$workspace/$statefile" >> $GITHUB_ENV
+    
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform Init
+      run: |
+        terraform init \
+        -backend-config="bucket=$bucketBackend" \
+        -backend-config="key=$key" \
+        -backend-config="region=${{ secrets.REGION_US_EAST_1 }}" 
+
+    
+    # Apply planning 
+    - name: Terraform Apply
+      run: terraform apply -var-file="./$devVars" -auto-approve
+  
