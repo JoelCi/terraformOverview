@@ -52,7 +52,7 @@ on:
 
 env:
   devVars: "aws-dev.tfvars"
-  bucketBackend: ${{ secrets.S3_BUCKET_BACKEND }}
+  bucketBackend: "joel20220211"
   
   
 
