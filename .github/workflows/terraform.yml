@@ -52,8 +52,8 @@ on:
 
 env:
   devVars: "aws-dev.tfvars"
-  bucketBackend: secrets.S3_BUCKET_BACKEND
-  region: "us-east-1"
+  bucketBackend: ${{ secrets.S3_BUCKET_BACKEND }}
+  
   
 
 
@@ -88,9 +88,9 @@ jobs:
     
     - name: Setting AWS credentials
       run: |
-        aws configure set aws_access_key_id secrets.DEFAULT_ACCESS_KEY
-        aws configure set aws_secret_access_key secrets.DEFAULT_SECRET_KEY
-        aws configure set default.region secrets.REGION_US_EAST_1
+        aws configure set aws_access_key_id ${{ secrets.DEFAULT_ACCESS_KEY }}
+        aws configure set aws_secret_access_key ${{ secrets.DEFAULT_SECRET_KEY }}
+        aws configure set default.region ${{ secrets.REGION_US_EAST_1 }}
         aws sts get-caller-identity
 
     - name: Setting up environment variables for terraform backend
@@ -105,7 +105,7 @@ jobs:
         terraform init \
         -backend-config="bucket=$bucket" \
         -backend-config="key=$key" \
-        -backend-config="region=$region" 
+        -backend-config="region=${{ secrets.REGION_US_EAST_1 }}" 
 
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
