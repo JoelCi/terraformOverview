@@ -53,7 +53,7 @@ on:
 env:
   devVars: "aws-dev.tfvars"
   bucketBackend: ${{ secrets.S3_BUCKET_BACKEND }}
-  key: ''
+  key: 'state/terraform.tfstate'
   
   
 
@@ -96,7 +96,7 @@ jobs:
 
     - name: Setting up environment variables for terraform backend
       run: |
-        export key="state/terraform.tfstate"
+        export key="test"
     
     - name: Testing variable scope
       run: |
