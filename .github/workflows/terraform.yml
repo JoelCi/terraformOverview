@@ -91,7 +91,7 @@ jobs:
         aws configure set aws_access_key_id secrets.DEFAULT_ACCESS_KEY
         aws configure set aws_secret_access_key secrets.DEFAULT_SECRET_KEY
         aws configure set default.region secrets.REGION_US_EAST_1
-        cat ~/.aws/credentials
+        aws sts get-caller-identity
 
     - name: Setting up environment variables for terraform backend
       run: |
