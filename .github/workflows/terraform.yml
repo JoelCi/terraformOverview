@@ -96,6 +96,7 @@ jobs:
 
     - name: Setting up environment variables for terraform backend
       run: |
+        unset key
         export key="test"
     
     - name: Testing variable scope
