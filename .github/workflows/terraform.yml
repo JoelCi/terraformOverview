@@ -52,7 +52,7 @@ on:
 
 env:
   devVars: "aws-dev.tfvars"
-  bucketBackend: "joel20220211"
+  bucketBackend: ${{ secrets.S3_BUCKET_BACKEND }}
   
   
 
@@ -95,8 +95,7 @@ jobs:
 
     - name: Setting up environment variables for terraform backend
       run: |
-        export bucket=$bucketBackend
-        export key="state/terraform.tfstate"
+        export key="terraform.tfstate"
         
 
 
@@ -104,8 +103,8 @@ jobs:
     - name: Terraform Init
       run: |
         terraform init \
-        -backend-config="bucket=joel20220211" \
-        -backend-config="key=state/terraform.tfstate" \
+        -backend-config="bucket=$bucketBackend" \
+        -backend-config="key=$key" \
         -backend-config="region=${{ secrets.REGION_US_EAST_1 }}" 
 
     # Checks that all Terraform configuration files adhere to a canonical format
