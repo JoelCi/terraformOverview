@@ -45,10 +45,13 @@
 name: 'Terraform_Plan&Apply'
 
 on:
-  push:
-    branches:
-    - main
-  pull_request:
+  workflow_dispatch:
+
+#on:
+#  push:
+#    branches:
+#    - main
+#  pull_request:
 
 env:
   devVars: "aws-dev.tfvars"
