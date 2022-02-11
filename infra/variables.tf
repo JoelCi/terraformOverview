@@ -36,10 +36,6 @@ variable "numberOfPublicEC2" {
   default     = 1
 }
 
-variable "bucketBackendName" {
-  type        = string
-  description = "S3 bucket name where we will store our state file"
-}
 variable "numberOfPrivateEC2" {
   type        = number
   description = "(optional) describe your variable"

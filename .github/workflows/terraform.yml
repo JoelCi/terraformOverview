@@ -91,9 +91,19 @@ jobs:
         aws configure set aws_secret_access_key secrets.DEFAULT_SECRET_KEY
         aws configure set default.region secrets.REGION_US_EAST_1
 
+    - name: Setting up environment variables for terraform backend
+      run: |
+        export bucket=$bucketBackend
+        export key="state/terraform.tfstate"
+
+
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
-      run: terraform init
+      run: |
+        terraform init \
+        -backend-config="bucket=$bucket" \
+        -backend-config="key=$key" 
+        -backend-config="region=secrets.REGION_US_EAST_1" 
 
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
@@ -105,7 +115,7 @@ jobs:
       
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform plan -var-file="./$devVars" -var "bucketBackendName=$bucketBackend"
+      run: terraform plan -var-file="./$devVars"
   
 
    #   # On push to main, build or change infrastructure according to Terraform configuration files

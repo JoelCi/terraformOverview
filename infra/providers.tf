@@ -5,10 +5,7 @@ terraform {
       version = "3.74.0"
     }
   }
-  backend "s3" {
-    bucket = var.bucketBackendName
-    key    = "state/terraform.tfstate"
-  }
+  backend "s3" {}
 }
 
 
